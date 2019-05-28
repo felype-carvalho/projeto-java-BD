@@ -14,6 +14,6 @@ public class Teste {
         cb.setDescricao("Carro SEMI-NOVO");
         System.out.println(cd.inserir(cb));
         
-        
+     Conexao.closeConection(con);   
     }
 }
