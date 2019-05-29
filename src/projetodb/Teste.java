@@ -10,17 +10,18 @@ public class Teste {
         CarroBean cb = new CarroBean();
         CarroDAO cd = new CarroDAO(con);
 
-        cb.setPlaca("KKK0000");
+        cb.setPlaca("KJJ0000");
         cb.setCor("Azul");
-        cb.setDescricao("Carro Zero");
+        cb.setDescricao("Carro Usado");
         System.out.println(cd.inserir(cb));
 
-        //Testando método alterar
+        //Método alterar
         /*cb.setPlaca("JKL2897");
         cb.setCor("Amarelo");
         cb.setDescricao("Carro 3");
         System.out.println(cd.alterar(cb));*/
-        //Testando excluir
+        
+        //Método excluir
         /* cb.setPlaca("JKL2897");
         System.out.println(cd.excluir(cb));*/
         
@@ -33,6 +34,6 @@ public class Teste {
             }
         }
 
-        Conexao.closeConection(con);
+       Conexao.closeConection(con);
     }
 }
