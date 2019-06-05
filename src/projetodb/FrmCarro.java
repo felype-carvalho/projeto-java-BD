@@ -1,11 +1,9 @@
-
 package projetodb;
 
 import javax.swing.table.*;
 import java.sql.*;
 import java.util.*;
 import javax.swing.JOptionPane;
-
 
 public class FrmCarro extends javax.swing.JFrame {
 
@@ -162,6 +160,11 @@ public class FrmCarro extends javax.swing.JFrame {
         btnExcluir.setText("Excluir");
 
         btnPesquisar.setText("Pesquisar");
+        btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPesquisarMouseClicked(evt);
+            }
+        });
 
         btnLimpar.setText("Limpar");
         btnLimpar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -228,12 +231,24 @@ public class FrmCarro extends javax.swing.JFrame {
             Class[] types = new Class [] {
                 java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         jScrollPane1.setViewportView(tblConsulta);
+        if (tblConsulta.getColumnModel().getColumnCount() > 0) {
+            tblConsulta.getColumnModel().getColumn(0).setResizable(false);
+            tblConsulta.getColumnModel().getColumn(1).setResizable(false);
+            tblConsulta.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -305,7 +320,7 @@ public class FrmCarro extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimparMouseClicked
 
     private void btnLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimparActionPerformed
-        
+
     }//GEN-LAST:event_btnLimparActionPerformed
 
     private void btnIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIncluirActionPerformed
@@ -320,8 +335,30 @@ public class FrmCarro extends javax.swing.JFrame {
         cb.setCor(txtCor.getText());
         cb.setDescricao(txtDescricao.getText());
         lblMensagem.setText(cd.inserir(cb));
-        Conexao.closeConection(con);
+        Conexao.closeConnection(con);
     }//GEN-LAST:event_btnIncluirMouseClicked
+
+    private void btnPesquisarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPesquisarMouseClicked
+        Connection con = Conexao.openConnection();
+        CarroDAO cd = new CarroDAO(con);
+        List<CarroBean> listaCarro = new ArrayList<CarroBean>();
+        listaCarro = cd.listarTodos();
+        DefaultTableModel tbm
+                = (DefaultTableModel) tblConsulta.getModel();
+        for (int i = tbm.getRowCount() - 1; i >= 0; i--) {
+            tbm.removeRow(i);
+        }
+        int i = 0;
+        for (CarroBean cb : listaCarro) {
+            tbm.addRow(new String[1]);
+            tblConsulta.setValueAt(cb.getPlaca(), i, 0);
+            tblConsulta.setValueAt(cb.getCor(), i, 1);
+            tblConsulta.setValueAt(cb.getDescricao(), i, 2);
+            i++;
+        }
+        Conexao.closeConnection(con);
+
+    }//GEN-LAST:event_btnPesquisarMouseClicked
 
     /**
      * @param args the command line arguments

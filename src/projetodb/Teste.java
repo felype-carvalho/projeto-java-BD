@@ -34,6 +34,6 @@ public class Teste {
             }
         }
 
-       Conexao.closeConection(con);
+       Conexao.closeConnection(con);
     }
 }

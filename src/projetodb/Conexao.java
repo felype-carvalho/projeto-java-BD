@@ -27,7 +27,7 @@ public class Conexao {
         return con;
     }
 
-    public static void closeConection(Connection con) {
+    public static void closeConnection(Connection con) {
         try {
             con.close();
             System.out.println("Conexão fechada.");
