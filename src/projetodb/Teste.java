@@ -10,10 +10,10 @@ public class Teste {
         CarroBean cb = new CarroBean();
         CarroDAO cd = new CarroDAO(con);
 
-        cb.setPlaca("KJJ0000");
+       /* cb.setPlaca("KJJ0000");
         cb.setCor("Azul");
         cb.setDescricao("Carro Usado");
-        System.out.println(cd.inserir(cb));
+        System.out.println(cd.inserir(cb));*/
 
         //Método alterar
         /*cb.setPlaca("JKL2897");
@@ -22,7 +22,7 @@ public class Teste {
         System.out.println(cd.alterar(cb));*/
         
         //Método excluir
-        /* cb.setPlaca("JKL2897");
+        /*cb.setPlaca("JKL2897");
         System.out.println(cd.excluir(cb));*/
         
         List<CarroBean> lista = cd.listarTodos();

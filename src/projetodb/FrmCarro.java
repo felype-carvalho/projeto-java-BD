@@ -156,13 +156,33 @@ public class FrmCarro extends javax.swing.JFrame {
         });
 
         btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
         btnExcluir.setText("Excluir");
+        btnExcluir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExcluirMouseClicked(evt);
+            }
+        });
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         btnPesquisar.setText("Pesquisar");
         btnPesquisar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnPesquisarMouseClicked(evt);
+            }
+        });
+        btnPesquisar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPesquisarActionPerformed(evt);
             }
         });
 
@@ -241,6 +261,11 @@ public class FrmCarro extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tblConsulta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblConsultaMouseClicked(evt);
             }
         });
         jScrollPane1.setViewportView(tblConsulta);
@@ -343,8 +368,7 @@ public class FrmCarro extends javax.swing.JFrame {
         CarroDAO cd = new CarroDAO(con);
         List<CarroBean> listaCarro = new ArrayList<CarroBean>();
         listaCarro = cd.listarTodos();
-        DefaultTableModel tbm
-                = (DefaultTableModel) tblConsulta.getModel();
+        DefaultTableModel tbm = (DefaultTableModel) tblConsulta.getModel();
         for (int i = tbm.getRowCount() - 1; i >= 0; i--) {
             tbm.removeRow(i);
         }
@@ -359,6 +383,52 @@ public class FrmCarro extends javax.swing.JFrame {
         Conexao.closeConnection(con);
 
     }//GEN-LAST:event_btnPesquisarMouseClicked
+
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPesquisarActionPerformed
+
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        Connection con = Conexao.openConnection();
+        CarroBean cb = new CarroBean();
+        CarroDAO cd = new CarroDAO(con);
+        cb.setPlaca(txtPlaca.getText());
+        cb.setCor(txtCor.getText()); 
+        cb.setDescricao(txtDescricao.getText());
+        lblMensagem.setText(cd.alterar(cb));
+        Conexao.closeConnection(con); 
+
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void tblConsultaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblConsultaMouseClicked
+        Integer linha = tblConsulta.getSelectedRow();
+        String placa = (String)tblConsulta.getValueAt(linha, 0);
+        String cor = (String)tblConsulta.getValueAt(linha, 1);
+        String descricao = (String)tblConsulta.getValueAt(linha, 2);
+        
+        txtPlaca.setText(placa);
+        txtCor.setText(cor);
+        txtDescricao.setText(descricao); 
+    }//GEN-LAST:event_tblConsultaMouseClicked
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnExcluirActionPerformed
+
+    private void btnExcluirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExcluirMouseClicked
+        Connection con = Conexao.openConnection();
+        CarroBean cb = new CarroBean();
+        CarroDAO cd = new CarroDAO(con);
+        cb.setPlaca(txtPlaca.getText());
+        Object[] opcoes = { "Sim", "Não" };
+        int i = JOptionPane.showOptionDialog(null, "Deseja excluir esse veículo: "+txtPlaca.getText()+"?", "Exclusão",
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE, null, opcoes, opcoes[0]);
+        if (i == JOptionPane.YES_OPTION) {
+        lblMensagem.setText(cd.excluir(cb));
+        }
+        Conexao.closeConnection(con);
+    }//GEN-LAST:event_btnExcluirMouseClicked
 
     /**
      * @param args the command line arguments
