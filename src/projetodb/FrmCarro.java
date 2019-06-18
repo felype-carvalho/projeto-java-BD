@@ -428,8 +428,29 @@ public class FrmCarro extends javax.swing.JFrame {
         lblMensagem.setText(cd.excluir(cb));
         }
         Conexao.closeConnection(con);
+        atualizaA(); //executando o método bainagem
     }//GEN-LAST:event_btnExcluirMouseClicked
 
+    public void atualizaA() { //baianor
+        Connection con = Conexao.openConnection();
+        CarroDAO cd = new CarroDAO(con);
+        List<CarroBean> listaCarro = new ArrayList<CarroBean>();
+        listaCarro = cd.listarTodos();
+        DefaultTableModel tbm = (DefaultTableModel) tblConsulta.getModel();
+        for (int i = tbm.getRowCount() - 1; i >= 0; i--) {
+            tbm.removeRow(i);
+        }
+        int i = 0;
+        for (CarroBean cb : listaCarro) {
+            tbm.addRow(new String[1]);
+            tblConsulta.setValueAt(cb.getPlaca(), i, 0);
+            tblConsulta.setValueAt(cb.getCor(), i, 1);
+            tblConsulta.setValueAt(cb.getDescricao(), i, 2);
+            i++;
+        }
+        Conexao.closeConnection(con);
+    }
+    
     /**
      * @param args the command line arguments
      */
